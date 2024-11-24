@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto</title>
     <style>
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        .ul-header {
+            display: flex;
+            justify-content: space-between;
+            list-style: none;
+            padding: 0;
+        }
+        .ul-header li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .img-logo {
+            width: 50px;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -63,9 +86,25 @@
             padding: 10px;
             border-radius: 5px;
         }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
+    <header>
+        <ul class="ul-header">
+            <li><a href="index.php"><img src="images/logo.png" alt="Logo" class="img-logo"></a></li>
+            <li><a href="product.php">Productos</a></li>
+            <li><a href="contact.php">Contacto</a></li>
+        </ul>
+    </header>
     <div class="container">
         <h1>Contacto</h1>
         <h2>Dejanos tu mensaje y será respondido a la brevedad</h2>
@@ -83,30 +122,36 @@
         </form>
 
         <?php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = htmlspecialchars(trim($_POST['name']));
-            $email = htmlspecialchars(trim($_POST['email']));
-            $message = htmlspecialchars($_POST['message']);
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $name = htmlspecialchars(trim($_POST['name']));
+                $email = htmlspecialchars(trim($_POST['email']));
+                $message = htmlspecialchars($_POST['message']);
+                session_start();
+                $_SESSION['response'] = [
+                    'name' => $name,
+                    'email' => $email,
+                    'message' => $message
+                ];
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit;
+            }
             session_start();
-            $_SESSION['response'] = [
-                'name' => $name,
-                'email' => $email,
-                'message' => $message
-            ];
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
-        }
-        session_start();
-        if (!empty($_SESSION['response'])): ?>
-            <div class="response">
-                <h3>Mensaje enviado:</h3>
-                <p><strong>Nombre:</strong> <?php echo $_SESSION['response']['name']; ?></p>
-                <p><strong>Correo:</strong> <?php echo $_SESSION['response']['email']; ?></p>
-                <p><strong>Mensaje:</strong></p>
-                <p><?php echo $_SESSION['response']['message']; ?></p>
-            </div>
-            <?php session_destroy();?>
-        <?php endif; ?>
+            if (!empty($_SESSION['response'])) {
+                $response = $_SESSION['response'];
+                echo '<div class="response">';
+                echo '<h3>Mensaje enviado:</h3>';
+                echo '<p><strong>Nombre:</strong> ' . $response['name'] . '</p>';
+                echo '<p><strong>Correo:</strong> ' . $response['email'] . '</p>';
+                echo '<p><strong>Mensaje:</strong></p>';
+                echo '<p>' . $response['message'] . '</p>';
+                echo '</div>';
+                session_destroy();
+            }
+        ?>
     </div>
+
+    <footer>
+        <p>&copy; 2024 - Programación Web II</p>
+    </footer>
 </body>
 </html>

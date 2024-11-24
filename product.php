@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Productos</title>
     <style>
         header {
             background-color: #333;
@@ -56,7 +56,7 @@
             <li><a href="contact.php">Contacto</a></li>
         </ul>
     </header>
-    <h1>Inicio</h1>
+    <h1>Catalogo de productos</h1>
     <p>Bienvenido a la página de inicio</p>
     <footer>
         <p>&copy; 2024 - Programación Web II</p>
